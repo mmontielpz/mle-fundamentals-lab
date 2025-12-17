@@ -62,10 +62,16 @@ def fit_closed_form(X: List[float], y: List[float]) -> Tuple[float, float]:
 def predict(X: List[float], coef: float, intercept: float) -> List[float]:
     """
     Generate predictions for simple linear regression.
+
+    y_hat = coef * x + intercept
     """
 
     if not X:
         raise ValueError("X must not be empty")
 
-    # Implementation will follow
-    raise NotImplementedError
+    predictions: List[float] = []
+    for xi in X:
+        y_hat = coef * xi + intercept
+        predictions.append(y_hat)
+
+    return predictions
