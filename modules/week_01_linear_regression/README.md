@@ -22,7 +22,7 @@ src/
 linear_regression.py     # Reference implementation from first principles
 
 notebooks/
-01_sklearn_baseline.ipynb        # Baseline comparison against scikit-learn
+01_sklearn_baseline.ipynb        # Baseline behavior under ideal assumptions
 02_assumption_linearity.ipynb    # Demonstration of linearity violations
 
 experiments/
@@ -69,10 +69,16 @@ but because its failures are visible.
 Understanding when and why it fails is a prerequisite
 for using more complex models responsibly.
 
-## Execution notes
+---
+
+## Execution and packaging model
+
 Notebooks are executed from the module root
 (`modules/week_01_linear_regression`).
 
-Local implementations are imported from `src/` as a module,
-not installed as a package. This is an intentional choice to
-prioritize clarity over distribution mechanics.
+Code under `src/` is treated as a local module and imported directly by
+notebooks. This module is intentionally not packaged as a distributable
+library.
+
+This choice prioritizes clarity, traceability, and interview readability
+over distribution mechanics.
