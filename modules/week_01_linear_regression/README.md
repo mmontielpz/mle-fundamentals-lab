@@ -68,3 +68,11 @@ but because its failures are visible.
 
 Understanding when and why it fails is a prerequisite
 for using more complex models responsibly.
+
+## Execution notes
+Notebooks are executed from the module root
+(`modules/week_01_linear_regression`).
+
+Local implementations are imported from `src/` as a module,
+not installed as a package. This is an intentional choice to
+prioritize clarity over distribution mechanics.
