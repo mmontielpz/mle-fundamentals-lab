@@ -1,20 +1,47 @@
 # MLE Fundamentals Lab
 
-A public, weekly-updated lab to practice and demonstrate Machine Learning Engineering fundamentals:
-theory, coding, toy examples, real-world projects, system design, MLOps, and productized deliverables.
+A public, module-based lab to practice and demonstrate Machine Learning Engineering fundamentals
+through focused, self-contained weekly modules.
 
-## Repository map
-- `01_theory/` concise notes and references
-- `02_coding_fundamentals/` Python + DS&A patterns relevant to ML interviews
-- `03_toy_examples/` small experiments to validate concepts
-- `04_real_world_projects/` end-to-end projects with design decisions
-- `05_system_design/` ML system design notes and diagrams
-- `06_mlops/` operational practices and patterns
-- `07_products/` minimal product artifacts (APIs, batch pipelines)
-- `08_interview_prep/` curated questions + answers + drills
+Each module explores a single concept from first principles, combining theory, implementation,
+experiments, and system-level reasoning.
 
-## Weekly cadence
-Each week:
-1) Add one focused deliverable
-2) Document trade-offs and learnings
-3) Publish a short LinkedIn update pointing to the folder + README
+## Repository structure
+
+```
+modules/
+week_01_linear_regression/
+theory/        # Assumptions, derivations, and failure modes
+src/           # Reference implementations
+notebooks/     # Experiments and diagnostics
+experiments/   # Verification and comparisons
+
+```
+
+Each module is designed to be:
+- Conceptually scoped
+- Independently runnable
+- Incrementally extensible
+
+The emphasis is on correctness, clarity, and diagnostics rather than performance or abstraction.
+
+## Scope and philosophy
+
+This repository prioritizes:
+- Understanding over tooling
+- Explicit implementations over black-box usage
+- Diagnostic reasoning over benchmark chasing
+
+Production concerns, optimizations, and advanced infrastructure
+are introduced only when they become necessary.
+
+## Cadence
+
+Each module:
+1) Focuses on one core concept
+2) Documents assumptions and trade-offs
+3) Includes reference code and experiments
+4) Is accompanied by a technical write-up
+
+Selected modules are summarized and shared externally
+as part of a continuous learning and documentation process.
