@@ -1,15 +1,12 @@
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import LinearRegression as SklearnLinearRegression
+from src.linear_regression import LinearRegression
 
-from src.linear_regression import fit_closed_form, predict
-
-# --- Reproducitiblity --
+# --- Reproducibility ---
 RANDOM_STATE = 42
 np.random.seed(RANDOM_STATE)
 
-# --- Synthetic data generation
-# y = beta * x + intercept + noise
+# -- Synthetic data generation ---
 n_samples = 200
 X = np.random.rand(n_samples) * 10
 
@@ -19,38 +16,30 @@ noise = np.random.normal(0, 1.0, size=n_samples)
 
 y = true_coef * X + true_intercept + noise
 
-# --- Train / validation split (deterministic) ---
+# --- Deterministic shuffle ---
+indices = np.random.permutation(n_samples)
+X = X[indices]
+y = y[indices]
+
+# --- Train / validation split ---
 split_index = int(0.8 * n_samples)
 X_train, X_val = X[:split_index], X[split_index:]
 y_train, y_val = y[:split_index], y[split_index:]
 
 # --- Scikit-learn baseline ---
-sk_model = LinearRegression()
-sk_model.fit(X_train.reshape(-1, 1), y_train)
-y_sk_pred = sk_model.predict(X_val.reshape(-1, 1))
+sk_model = SklearnLinearRegression()
+sk_model.fit(X_train.reshape(-1, 1), y_train.tolist())
 
-# --- From-scracth implementation ---
-coef, intercept = fit_closed_form(
-    X_train.tolist(),
-    y_train.tolist()
-)
-
-y_scratch_pred = predict(
-    X_val.tolist(),
-    coef,
-    intercept
-)
+# --- From-scratch implementation ---
+scratch_model = LinearRegression()
+scratch_model.fit(X_train.tolist(), y_train.tolist())
 
 # --- Comparison ---
-mse_sklearn = mean_squared_error(y_val, y_sk_pred)
-mse_scratch = mean_squared_error(y_val, y_scratch_pred)
+print("True coefficient / intercept:")
+print(true_coef, true_intercept)
 
-print("Sklearn coefficient / intercept:")
+print("\nSklearn coefficient / intercept:")
 print(sk_model.coef_[0], sk_model.intercept_)
 
 print("\nScratch coefficient / intercept:")
-print(coef, intercept)
-
-print("\nValidation MSE:")
-print("Sklearn:", mse_sklearn)
-print("Scratch:", mse_scratch)
+print(scratch_model.coef_, scratch_model.intercept_)
