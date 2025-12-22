@@ -34,7 +34,7 @@ class LinearRegression:
 
         for xi, yi in zip(X, y):
             dx = xi - mean_x
-            dy = yi = mean_y
+            dy = yi - mean_y
             numerator += dx * dy
             denominator += dx * dx
 
