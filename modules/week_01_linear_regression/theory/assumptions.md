@@ -13,136 +13,156 @@ ŷ = w · x + b
 This does not require the real world to be linear. It requires that the relationship can be
 reasonably approximated by a weighted sum of the chosen features.
 
-**What it assumes**  
+**What it assumes**
 The model structure is sufficient to capture the dominant signal using linear combinations
 of features.
 
-**What breaks when violated**  
-- Systematic underfitting even with more data
-- Residual patterns that correlate with x (structure in the errors)
+**What breaks when violated**
 
-**Signals to look for**  
-- Residuals are not randomly scattered; they form curves or segments
-- Segment level metrics show consistent bias (over prediction in one region, under prediction in another)
+* Structural underfitting that persists regardless of data volume or optimization
+* Residual patterns that correlate with x (structure in the errors)
 
-**Mitigations**  
-- Feature engineering (nonlinear transforms, interactions)
-- Switch model class if the structure is fundamentally nonlinear
+**Signals to look for**
+
+* Residuals are not randomly scattered; they form curves or segments
+* Segment-level metrics show consistent bias (over prediction in one region, under prediction in another)
+
+**Mitigations**
+
+* Switch model class if the structure is fundamentally nonlinear
+* Feature engineering (nonlinear transforms, interactions) when appropriate
 
 ## 2) Independence of errors
 
 OLS assumes errors are independent across observations. In many real settings, observations
 are correlated:
-- time series
-- repeated measurements per user or device
-- grouped or hierarchical data
 
-**What it assumes**  
+* time series
+* repeated measurements per user or device
+* grouped or hierarchical data
+
+**What it assumes**
 Residuals do not carry information across samples.
 
-**What breaks when violated**  
-- Metrics can look better than they truly are
-- Confidence in coefficients is overstated
-- Generalization fails when the correlation structure changes
+**What breaks when violated**
 
-**Signals to look for**  
-- Performance collapses when you split by time or by group
-- Residuals show autocorrelation (errors cluster in runs)
+* Metrics can look better than they truly are
+* Confidence in coefficients is overstated
+* Generalization fails when the correlation structure changes
 
-**Mitigations**  
-- Use proper splitting strategies (time based, group based)
-- Use models that account for correlation or add relevant features
+**Signals to look for**
+
+* Performance collapses when you split by time or by group
+* Residuals show autocorrelation (errors cluster in runs)
+
+**Mitigations**
+
+* Use proper splitting strategies (time-based, group-based)
+* Use models that account for correlation or add relevant features
 
 ## 3) Zero mean errors
 
 OLS assumes E[ε | x] = 0, meaning that features capture all systematic signal and residuals
 represent only noise.
 
-**What it assumes**  
+**What it assumes**
 No systematic bias remains after conditioning on the features.
 
-**What breaks when violated**  
-- Persistent bias in predictions
-- Coefficients compensate for missing variables in unstable ways
+**What breaks when violated**
 
-**Signals to look for**  
-- Residual mean is not near zero in key segments
-- Predictions are consistently shifted up or down
+* Persistent bias in predictions
+* Coefficients compensate for missing variables in unstable ways
 
-**Mitigations**  
-- Add missing explanatory variables
-- Check data leakage and label definition consistency
+**Signals to look for**
+
+* Residual mean is not near zero in key segments
+* Predictions are consistently shifted up or down
+
+**Mitigations**
+
+* Add missing explanatory variables
+* Check data leakage and label definition consistency
 
 ## 4) Homoscedasticity (constant variance)
 
 OLS often assumes constant error variance across the range of inputs. Many real problems violate this:
-- variance grows with magnitude (sales, prices, counts)
-- different regimes have different noise levels
 
-**What it assumes**  
+* variance grows with magnitude (sales, prices, counts)
+* different regimes have different noise levels
+
+**What it assumes**
 Error variance is roughly constant across predictions.
 
-**What breaks when violated**  
-- Coefficients can remain unbiased, but uncertainty estimates and diagnostics become misleading
-- Outliers dominate learning and evaluation
+**What breaks when violated**
 
-**Signals to look for**  
-- Residual magnitude increases with x or ŷ
-- Error distribution differs strongly by segment
+* Coefficients can remain unbiased, but uncertainty estimates and diagnostics become misleading
+* Outliers dominate learning and evaluation
 
-**Mitigations**  
-- Transform the target (log, Box Cox)
-- Use robust losses or weighted regression (later modules)
+**Signals to look for**
+
+* Residual magnitude increases with x or ŷ
+* Error distribution differs strongly by segment
+
+**Mitigations**
+
+* Transform the target (log, Box–Cox)
+* Use robust losses or weighted regression (later modules)
 
 ## 5) Normality of errors (optional for prediction)
 
 Normality is not required for making point predictions. It matters mainly for statistical
 inference and confidence intervals.
 
-**What it assumes**  
+**What it assumes**
 Residuals follow an approximately normal distribution.
 
-**What breaks when violated**  
-- P values and confidence intervals become unreliable
-- Extreme events are under modeled if the true noise is heavy tailed
+**What breaks when violated**
 
-**Signals to look for**  
-- Heavy tails in residual histograms
-- Outlier sensitivity that dominates MSE
+* P-values and confidence intervals become unreliable
+* Extreme events are under-modeled if the true noise is heavy-tailed
 
-**Mitigations**  
-- Robust regression (Huber, quantile regression)
-- Evaluate with metrics that reflect tail risk
+**Signals to look for**
+
+* Heavy tails in residual histograms
+* Outlier sensitivity that dominates MSE
+
+**Mitigations**
+
+* Robust regression (Huber, quantile regression)
+* Evaluate with metrics that reflect tail risk
 
 ## 6) No perfect multicollinearity
 
 With multiple features, OLS assumes features are not perfectly collinear. If features are
 redundant or nearly redundant, coefficients become unstable.
 
-**What it assumes**  
+**What it assumes**
 Features provide independent information.
 
-**What breaks when violated**  
-- Large swings in coefficients with small data changes
-- Coefficients that are hard to interpret and do not transfer well
+**What breaks when violated**
 
-**Signals to look for**  
-- High variance in coefficients across splits
-- Similar performance but very different learned weights
+* Large swings in coefficients with small data changes
+* Coefficients that are hard to interpret and do not transfer well
 
-**Mitigations**  
-- Remove redundant features
-- Regularization (ridge) in later modules
+**Signals to look for**
+
+* High variance in coefficients across splits
+* Similar performance but very different learned weights
+
+**Mitigations**
+
+* Remove redundant features
+* Regularization (ridge) in later modules
 
 ## Practical diagnostic checklist
 
 When linear regression underperforms, do not jump to larger models immediately. First check:
 
-- Residual patterns: is there structure or curvature
-- Segments: does performance fail for specific groups
-- Outliers: do a few points dominate MSE
-- Splits: does time or group splitting collapse performance
-- Feature stability: do coefficients vary across runs or folds
+* Residual patterns: is there structure or curvature indicating model mis-specification
+* Segments: does performance fail for specific groups
+* Outliers: do a few points dominate MSE
+* Splits: does time- or group-based splitting collapse performance
+* Feature stability: do coefficients vary across runs or folds
 
 These checks are intentionally simple. In the accompanying notebooks, several of these
 failure modes are demonstrated explicitly using controlled examples.
