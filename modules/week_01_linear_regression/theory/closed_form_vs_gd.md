@@ -62,7 +62,8 @@ b ← b − α ∂J/∂b
 - Introduces optimization diagnostics as a concern
 
 Gradient descent does not change the model’s expressive power.
-It changes how efficiently and stably the optimum is reached.
+It changes how efficiently and stably the same optimum is reached,
+assuming the model class is valid.
 
 ## Numerical stability and conditioning
 
@@ -73,6 +74,16 @@ When features have vastly different scales or are highly correlated:
 - Gradient descent can still converge if features are scaled
 
 This is why feature scaling is not an optimization detail, but a stability requirement.
+
+## What optimization cannot fix
+
+Closed-form solutions and gradient descent solve the same objective.
+If the linear model is mis-specified, both methods converge to an
+invalid solution with different numerical paths.
+
+Optimization affects convergence behavior, not model validity.
+Structural errors caused by violated assumptions will persist
+regardless of solver choice.
 
 ## Engineering perspective
 
@@ -99,3 +110,4 @@ In this module:
 
 Both implementations solve the same problem.
 The difference lies in operational constraints, not modeling power.
+Neither approach can compensate for a structurally invalid model.
