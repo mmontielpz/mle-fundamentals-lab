@@ -22,8 +22,8 @@ The model converges cleanly, metrics look stable, but performance is consistentl
 
 **Mitigation**
 - Residual analysis by segment
-- Simple non-linear baselines for comparison
-- Revisit feature definitions before changing model class
+- Reject the model if residual structure indicates mis-specification
+- Use simple non-linear baselines for comparison
 
 ## Data leakage masking true performance
 
@@ -32,7 +32,7 @@ The model appears strong during validation but fails in real usage.
 
 **Why it happens**
 - Leakage from future information
-- Improper splitting (random instead of time or group based)
+- Improper splitting (random instead of time- or group-based)
 - Target-derived features
 
 **Operational symptoms**
@@ -112,7 +112,8 @@ It is inappropriate when:
 - Latent structure cannot be captured with engineered features
 
 In these cases, larger models may be justified.
-The key is knowing *why* a model fails before replacing it.
+The key is explicitly diagnosing *why* the linear model fails and
+confirming that the failure is structural rather than statistical.
 
 ## Summary
 
