@@ -1,47 +1,96 @@
 # MLE Fundamentals Lab
 
-A public, module-based lab to practice and demonstrate Machine Learning Engineering fundamentals
-through focused, self-contained weekly modules.
+A public, module-based lab to build and demonstrate Machine Learning Engineering
+fundamentals from first principles.
 
-Each module explores a single concept from first principles, combining theory, implementation,
-experiments, and system-level reasoning.
+This repository is structured as a sequence of self-contained technical modules,
+each focused on a single core concept and treated as an engineering problem:
+with explicit assumptions, controlled experiments, and verifiable conclusions.
+
+The goal is not to collect models, but to develop diagnostic reasoning,
+decision-making criteria, and technical rigor expected of senior MLE roles.
+
+---
 
 ## Repository structure
 
 ```
 modules/
 week_01_linear_regression/
-theory/        # Assumptions, derivations, and failure modes
-src/           # Reference implementations
-notebooks/     # Experiments and diagnostics
-experiments/   # Verification and comparisons
-
+week_02_bias_variance/
 ```
 
-Each module is designed to be:
+Each module follows a consistent internal structure:
+
+```
+theory/        # Assumptions, limits, and failure modes
+notebooks/     # Empirical diagnostics and visualizations
+experiments/   # Reproducible verification scripts
+src/           # Minimal reference implementations (when applicable)
+```
+
+Modules are designed to be:
 - Conceptually scoped
 - Independently runnable
-- Incrementally extensible
+- Closed once validated
+- Referencable via tags
 
-The emphasis is on correctness, clarity, and diagnostics rather than performance or abstraction.
+---
 
-## Scope and philosophy
+## What this repository emphasizes
 
-This repository prioritizes:
+This lab prioritizes:
+
 - Understanding over tooling
 - Explicit implementations over black-box usage
-- Diagnostic reasoning over benchmark chasing
+- Diagnostics over metric chasing
+- Model validity over optimization tricks
+- Reproducibility over exploration
 
-Production concerns, optimizations, and advanced infrastructure
-are introduced only when they become necessary.
+Each module answers a specific engineering question
+and establishes criteria for when a modeling approach should be accepted,
+modified, or rejected.
+
+---
+
+## Current modules
+
+- **Week 01 — Linear Regression**  
+  Baselines, assumptions, residual diagnostics, and structural failure modes.
+
+- **Week 02 — Bias–Variance and Generalization**  
+  Empirical bias–variance behavior, validation curves, and controlled
+  regularization experiments.
+
+Each completed module is treated as immutable
+and tagged once conceptually and technically closed.
+
+---
+
+## Scope and progression
+
+This repository intentionally delays:
+
+- Hyperparameter search automation
+- Cross-validation pipelines
+- MLOps and deployment infrastructure
+- Performance optimization
+
+These topics are introduced only after the underlying diagnostic
+and modeling foundations are established.
+
+---
 
 ## Cadence
 
 Each module:
-1) Focuses on one core concept
-2) Documents assumptions and trade-offs
-3) Includes reference code and experiments
-4) Is accompanied by a technical write-up
+
+1) Defines the problem and assumptions
+2) Builds minimal reference implementations
+3) Makes behavior observable through experiments
+4) Verifies conclusions with reproducible scripts
+5) Is documented and closed before moving on
 
 Selected modules are summarized and shared externally
-as part of a continuous learning and documentation process.
+as part of a continuous learning and technical documentation process.
+```
